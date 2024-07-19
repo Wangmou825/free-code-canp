@@ -144,7 +144,7 @@ exports.createChallengePages = function (createPage) {
 };
 
 function getProjectPreviewConfig(challenge, allChallengeEdges) {
-  const { block, demoType } = challenge;
+  const { block } = challenge;
 
   const challengesInBlock = allChallengeEdges
     .filter(({ node: { challenge } }) => challenge.block === block)
@@ -162,7 +162,6 @@ function getProjectPreviewConfig(challenge, allChallengeEdges) {
   }));
 
   return {
-    showProjectPreview: demoType === 'workshop' || demoType === 'lab',
     challengeData: {
       challengeType: lastChallenge.challengeType,
       challengeFiles: projectPreviewChallengeFiles
