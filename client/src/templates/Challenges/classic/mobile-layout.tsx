@@ -152,7 +152,6 @@ class MobileLayout extends Component<MobileLayoutProps, MobileLayoutState> {
     const { currentTab } = this.state;
     const {
       hasEditableBoundaries,
-      hasDemo,
       instructions,
       editor,
       testOutput,
@@ -314,7 +313,6 @@ class MobileLayout extends Component<MobileLayoutProps, MobileLayoutState> {
           {!hasEditableBoundaries && (
             <ToolPanel
               guideUrl={guideUrl}
-              hasDemo={hasDemo}
               isMobile={true}
               videoUrl={videoUrl}
             />
