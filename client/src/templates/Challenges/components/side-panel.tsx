@@ -2,12 +2,14 @@ import React, { useEffect, ReactElement } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@freecodecamp/ui';
 
 import { Test } from '../../../redux/prop-types';
 import { SuperBlocks } from '../../../../../shared/config/curriculum';
 import { initializeMathJax } from '../../../utils/math-jax';
 import { challengeTestsSelector } from '../redux/selectors';
 import { openModal } from '../redux/actions';
+import { Spacer } from '../../../components/helpers';
 import TestSuite from './test-suite';
 import ToolPanel from './tool-panel';
 
@@ -72,10 +74,12 @@ export function SidePanel({
     >
       {challengeTitle}
       {hasDemo && (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <div onClick={() => openModal('projectPreview')}>
-          {t('buttons.show-demo')}
-        </div>
+        <>
+          <Button size='small' onClick={() => openModal('projectPreview')}>
+            {t('buttons.show-demo')}
+          </Button>
+          <Spacer size='xSmall' />
+        </>
       )}
       {challengeDescription}
       {showToolPanel && <ToolPanel guideUrl={guideUrl} videoUrl={videoUrl} />}
