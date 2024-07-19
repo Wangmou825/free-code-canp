@@ -22,6 +22,7 @@ interface SidePanelProps {
   challengeDescription: ReactElement;
   challengeTitle: ReactElement;
   guideUrl: string;
+  hasDemo: boolean | null;
   instructionsPanelRef: React.RefObject<HTMLDivElement>;
   showToolPanel: boolean;
   superBlock: SuperBlocks;
@@ -36,6 +37,7 @@ export function SidePanel({
   guideUrl,
   instructionsPanelRef,
   showToolPanel = false,
+  hasDemo,
   superBlock,
   tests,
   videoUrl
@@ -56,7 +58,9 @@ export function SidePanel({
     >
       {challengeTitle}
       {challengeDescription}
-      {showToolPanel && <ToolPanel guideUrl={guideUrl} videoUrl={videoUrl} />}
+      {showToolPanel && (
+        <ToolPanel hasDemo={hasDemo} guideUrl={guideUrl} videoUrl={videoUrl} />
+      )}
       <TestSuite tests={tests} />
     </div>
   );
