@@ -26,7 +26,6 @@ interface MobileLayoutProps {
   editor: JSX.Element | null;
   guideUrl: string;
   hasEditableBoundaries: boolean;
-  hasDemo: boolean | null;
   hasPreview: boolean;
   instructions: JSX.Element;
   notes: string;
