@@ -69,6 +69,7 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
           ) {
             edges {
               node {
+                id
                 challenge {
                   block
                   certification
