@@ -350,9 +350,8 @@ function* updatePython(challengeData) {
 }
 
 function* previewProjectSolutionSaga({ payload }) {
-  if (!payload) return;
-  const { showProjectPreview, challengeData } = payload;
-  if (!showProjectPreview) return;
+  if (!payload?.challengeData) return;
+  const { challengeData } = payload;
 
   try {
     if (canBuildChallenge(challengeData)) {
