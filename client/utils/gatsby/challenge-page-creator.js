@@ -186,7 +186,8 @@ exports.createBlockIntroPages = function (createPage) {
   return function (edge) {
     const {
       fields: { slug },
-      frontmatter: { block }
+      frontmatter: { block },
+      id
     } = edge.node;
 
     createPage({
@@ -194,7 +195,7 @@ exports.createBlockIntroPages = function (createPage) {
       component: intro,
       context: {
         block,
-        slug
+        id
       }
     });
   };
@@ -204,7 +205,8 @@ exports.createSuperBlockIntroPages = function (createPage) {
   return function (edge) {
     const {
       fields: { slug },
-      frontmatter: { superBlock, certification }
+      frontmatter: { superBlock, certification },
+      id
     } = edge.node;
 
     if (!certification) {
@@ -220,9 +222,8 @@ exports.createSuperBlockIntroPages = function (createPage) {
       path: slug,
       component: superBlockIntro,
       context: {
-        certification,
-        superBlock,
-        slug
+        id,
+        superBlock
       }
     });
   };
