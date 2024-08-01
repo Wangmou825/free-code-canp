@@ -370,7 +370,7 @@ function ShowClassic({
     // Typically, this kind of preview only appears on the first step of a
     // project and is shown (once) automatically. In contrast, labs are more
     // freeform, so the preview is shown on demand.
-    if (demoType === 'workshop') openModal('projectPreview');
+    if (demoType === 'onLoad') openModal('projectPreview');
     updateChallengeMeta({
       ...challengeMeta,
       title,
@@ -436,7 +436,7 @@ function ShowClassic({
           resizeProps={resizeProps}
           title={title}
           usesMultifileEditor={usesMultifileEditor}
-          showProjectPreview={demoType === 'workshop'}
+          showProjectPreview={demoType === 'onLoad'}
         />
       )
     );
@@ -466,7 +466,7 @@ function ShowClassic({
             hasPreview={showPreview}
             instructions={renderInstructionsPanel({
               showToolPanel: false,
-              hasDemo: demoType === 'lab'
+              hasDemo: demoType === 'onClick'
             })}
             notes={notes}
             onPreviewResize={onPreviewResize}
@@ -499,7 +499,7 @@ function ShowClassic({
             hasPreview={showPreview}
             instructions={renderInstructionsPanel({
               showToolPanel: true,
-              hasDemo: demoType === 'lab'
+              hasDemo: demoType === 'onClick'
             })}
             isFirstStep={isFirstStep}
             layoutState={layout}
