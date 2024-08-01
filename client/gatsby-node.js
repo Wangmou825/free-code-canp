@@ -23,11 +23,7 @@ exports.onCreateNode = function onCreateNode({ node, actions, getNode }) {
   if (node.internal.type === 'MarkdownRemark') {
     const slug = createFilePath({ node, getNode });
     if (!slug.includes('LICENSE')) {
-      const {
-        frontmatter: { component = '' }
-      } = node;
       createNodeField({ node, name: 'slug', value: slug });
-      createNodeField({ node, name: 'component', value: component });
     }
   }
 };
@@ -73,6 +69,7 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
           ) {
             edges {
               node {
+                id
                 challenge {
                   block
                   certification
@@ -167,7 +164,6 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
                 fields {
                   slug
                   nodeIdentity
-                  component
                 }
                 frontmatter {
                   certification
@@ -175,9 +171,7 @@ exports.createPages = function createPages({ graphql, actions, reporter }) {
                   superBlock
                   title
                 }
-                htmlAst
                 id
-                excerpt
               }
             }
           }
