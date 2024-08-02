@@ -44,11 +44,8 @@ import StagingWarningModal from '../staging-warning-modal';
 import Footer from '../Footer';
 import Header from '../Header';
 import OfflineWarning from '../OfflineWarning';
-import { Loader, Spacer } from '../helpers';
-import {
-  MAX_MOBILE_WIDTH,
-  EX_SMALL_VIEWPORT_HEIGHT
-} from '../../../config/misc';
+import { Loader } from '../helpers';
+import { MAX_MOBILE_WIDTH } from '../../../config/misc';
 import envData from '../../../config/env.json';
 
 import '@freecodecamp/ui/dist/base.css';
@@ -147,9 +144,6 @@ function DefaultLayout({
   const isRenderBreadcrumbOnMobile =
     isMobileLayout && (isProject || !usesMultifileEditor);
   const isRenderBreadcrumb = !isMobileLayout || isRenderBreadcrumbOnMobile;
-  const isExSmallViewportHeight = useMediaQuery({
-    maxHeight: EX_SMALL_VIEWPORT_HEIGHT
-  });
   const { challengeEdges, certificateNodes } = useGetAllBlockIds();
   useEffect(() => {
     // componentDidMount
@@ -265,11 +259,7 @@ function DefaultLayout({
                 superBlock={superBlock as string}
               />
             </div>
-          ) : isExSmallViewportHeight ? (
-            <Spacer size='xxSmall' />
-          ) : (
-            <Spacer size='small' />
-          )}
+          ) : null}
           {fetchState.complete && children}
         </div>
         {showFooter && <Footer />}
