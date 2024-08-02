@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 import { test, expect } from '@playwright/test';
 import translations from '../client/i18n/locales/english/translations.json';
 test.use({ storageState: 'playwright/.auth/certified-user.json' });
@@ -48,14 +49,15 @@ const legacyCertifications = [
 
 test.describe('Settings', () => {
   test.beforeEach(async ({ page }) => {
+    execSync('node ./tools/scripts/seed/seed-demo-user --certified-user');
     await page.goto('/settings');
   });
 
-  test('Should have the correct page title', async ({ page }) => {
+  test('Should render correctly', async ({ page }) => {
+    // Title
     await expect(page).toHaveTitle(settingsObject.pageTitle);
-  });
 
-  test('Should display the correct header', async ({ page }) => {
+    // Header
     const header = page.getByTestId(settingsTestIds.settingsHeading);
     await expect(header).toBeVisible();
     await expect(header).toContainText(
@@ -64,9 +66,8 @@ test.describe('Settings', () => {
         settingsObject.certifiedUsername
       )}`
     );
-  });
 
-  test('Should validate Privacy Settings', async ({ page }) => {
+    // Privacy Settings
     await expect(
       page.getByRole('heading', {
         name: translations.settings.headings.privacy
@@ -163,15 +164,13 @@ test.describe('Settings', () => {
       name: translations.settings.headings.privacy
     });
     await expect(saveButton).toBeVisible();
-    await saveButton.press('Enter');
     await expect(page.getByText(translations.settings.data)).toBeVisible();
     const downloadButton = page.getByRole('link', {
       name: translations.buttons['download-data']
     });
     await expect(downloadButton).toBeVisible();
-  });
 
-  test('Should validate Internet Presence Settings', async ({ page }) => {
+    // Internet Presence
     await expect(
       page.getByRole('heading', {
         name: translations.settings.headings.internet
@@ -180,13 +179,13 @@ test.describe('Settings', () => {
     await expect(
       page.getByTestId(settingsTestIds.internetPresence)
     ).toBeVisible();
-    const saveButton = page.getByRole('button', {
-      name: translations.settings.headings.internet
-    });
-    await expect(saveButton).toBeVisible();
-  });
+    await expect(
+      page.getByRole('button', {
+        name: translations.settings.headings.internet
+      })
+    ).toBeVisible();
 
-  test('Should validate Personal Information Settings', async ({ page }) => {
+    // Personal Information
     await expect(
       page.getByRole('heading', {
         name: translations.settings.headings['personal-info']
@@ -195,11 +194,11 @@ test.describe('Settings', () => {
     await expect(
       page.getByTestId(settingsTestIds.camperIdentity)
     ).toBeVisible();
-    const saveButton = page.getByRole('button', {
+    const savePersonalInfoButton = page.getByRole('button', {
       name: translations.settings.headings['personal-info']
     });
-    await expect(saveButton).toBeVisible();
-    await expect(saveButton).toBeDisabled();
+    await expect(savePersonalInfoButton).toBeVisible();
+    await expect(savePersonalInfoButton).toBeDisabled();
     await expect(
       page.getByLabel(translations.settings.labels.name, { exact: true })
     ).toHaveValue('Full Stack User');
@@ -235,9 +234,8 @@ test.describe('Settings', () => {
     await expect(
       page.getByText(translations.settings['scrollbar-width'])
     ).toBeVisible();
-  });
 
-  test('Should validate Certification Settings', async ({ page }) => {
+    // Certifications
     await expect(
       page.getByRole('heading', {
         name: translations.settings.headings.certs,
@@ -257,9 +255,8 @@ test.describe('Settings', () => {
         })
       ).toBeVisible();
     }
-  });
 
-  test('Should validate Legacy Certification Settings', async ({ page }) => {
+    // Legacy Certifications
     await expect(
       page.getByRole('heading', {
         name: translations.settings.headings['legacy-certs'],
@@ -280,9 +277,8 @@ test.describe('Settings', () => {
         })
       ).toBeVisible();
     }
-  });
 
-  test('Should display the Danger section properly', async ({ page }) => {
+    // Danger Zone
     await expect(page.getByText('Danger Zone')).toBeVisible();
     await expect(
       page.getByText(
@@ -316,6 +312,7 @@ test.describe('Settings', () => {
     );
     const pictureInput = page.getByLabel(translations.settings.labels.picture);
     const aboutInput = page.getByLabel(translations.settings.labels.about);
+    const updatedAlert = page.getByText(translations.flash['updated-about-me']);
 
     await nameInput.fill('Quincy Larson');
     await locationInput.fill('USA');
@@ -326,9 +323,9 @@ test.describe('Settings', () => {
 
     await expect(saveButton).not.toBeDisabled();
     await saveButton.click();
-    await expect(
-      page.getByText(translations.flash['updated-about-me'])
-    ).toBeVisible();
+    await expect(updatedAlert).toBeVisible();
+    // clear the alert to make sure it's gone before we save again.
+    await updatedAlert.getByRole('button').click();
 
     await nameInput.fill('');
     await locationInput.fill('');
@@ -337,9 +334,7 @@ test.describe('Settings', () => {
 
     await expect(saveButton).not.toBeDisabled();
     await saveButton.click();
-    await expect(
-      page.getByText(translations.flash['updated-about-me'])
-    ).toBeVisible();
+    await expect(updatedAlert).toBeVisible();
 
     await page.reload();
 
