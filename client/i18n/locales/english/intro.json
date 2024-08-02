@@ -1713,6 +1713,12 @@
       "front-end-development-certification-exam": {
         "title": "Front End Development Certification Exam",
         "intro": ["", ""]
+      },
+      "lab-business-card": {
+        "title": "Design a Business Card",
+        "intro": [
+          "In this lab, you'll create a business card and style it using CSS."
+        ]
       }
     }
   },
